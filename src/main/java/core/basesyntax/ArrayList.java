@@ -56,10 +56,11 @@ public class ArrayList<T> implements List<T> {
         if (index < 0 || index >= size) {
             throw new ArrayListIndexOutOfBoundsException("Invalid index: " + index);
         }
-        final T removed = elements[index]; // dodane 'final'
         for (int i = index; i < size - 1; i++) {
             elements[i] = elements[i + 1];
         }
+        final T removed = elements[size - 1]; // deklaracja tuż przed użyciem
+        elements[size - 1] = null; // wyczyszczenie ostatniego
         size--;
         return removed;
     }
