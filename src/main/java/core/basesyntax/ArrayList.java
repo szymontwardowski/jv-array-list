@@ -6,14 +6,14 @@ public class ArrayList<T> implements List<T> {
     @SuppressWarnings("unchecked")
     private T[] elements = (T[]) new Object[DEFAULT_CAPACITY];
 
+    private int size = 0;
+
     private void grow() {
         int newCapacity = elements.length + elements.length / 2;
         @SuppressWarnings("unchecked") T[] newElements = (T[]) new Object[newCapacity];
         System.arraycopy(elements, 0, newElements, 0, size);
         elements = newElements;
     }
-
-    private int size = 0;
 
     @Override
     public void add(T value) {
@@ -56,7 +56,7 @@ public class ArrayList<T> implements List<T> {
         if (index < 0 || index >= size) {
             throw new ArrayListIndexOutOfBoundsException("Invalid index: " + index);
         }
-        T removed = elements[index];
+        final T removed = elements[index]; // dodane 'final'
         for (int i = index; i < size - 1; i++) {
             elements[i] = elements[i + 1];
         }
