@@ -70,20 +70,31 @@ public class ArrayList<T> implements List<T> {
         if (element == null) {
             for (int i = 0; i < size; i++) {
                 if (elements[i] == null) {
-                    T removed = elements[i];
                     for (int j = i; j < size - 1; j++) {
                         elements[j] = elements[j + 1];
                     }
+                    final T removed = elements[size - 1];
+                    elements[size - 1] = null;
+                    size--;
+                    return removed;
+                }
+            }
+        } else {
+            for (int i = 0; i < size; i++) {
+                if (elements[i].equals(element)) {
+                    for (int j = i; j < size - 1; j++) {
+                        elements[j] = elements[j + 1];
+                    }
+                    final T removed = elements[size - 1];
                     elements[size - 1] = null;
                     size--;
                     return removed;
                 }
             }
         }
-
-        // jeśli nie znaleziono elementu, rzucamy wyjątek
         throw new java.util.NoSuchElementException("Element not found: " + element);
     }
+
 
     @Override
     public int size() {
