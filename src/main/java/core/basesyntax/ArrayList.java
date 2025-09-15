@@ -6,15 +6,12 @@ public class ArrayList<T> implements List<T> {
     @SuppressWarnings("unchecked")
     private T[] elements = (T[]) new Object[DEFAULT_CAPACITY];
 
-
     private void grow() {
         int newCapacity = elements.length + elements.length / 2;
-        @SuppressWarnings("unchecked")
-        T[] newElements = (T[]) new Object[newCapacity];
+        @SuppressWarnings("unchecked") T[] newElements = (T[]) new Object[newCapacity];
         System.arraycopy(elements, 0, newElements, 0, size);
         elements = newElements;
     }
-
 
     private int size = 0;
 
@@ -54,7 +51,6 @@ public class ArrayList<T> implements List<T> {
         elements[index] = value;
     }
 
-
     @Override
     public T remove(int index) {
         if (index < 0 || index >= size) {
@@ -87,7 +83,6 @@ public class ArrayList<T> implements List<T> {
         // jeśli nie znaleziono elementu, rzucamy wyjątek
         throw new java.util.NoSuchElementException("Element not found: " + element);
     }
-
 
     @Override
     public int size() {
