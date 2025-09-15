@@ -70,6 +70,7 @@ public class ArrayList<T> implements List<T> {
         if (index < 0 || index >= size) {
             throw new ArrayListIndexOutOfBoundsException("Invalid index: " + index);
         }
+        // tuż przed użyciem
         T removed = elements[index];
         System.arraycopy(elements, index + 1, elements, index, size - index - 1);
         elements[size - 1] = null; // wyzerowanie ostatniego elementu
@@ -82,18 +83,19 @@ public class ArrayList<T> implements List<T> {
         if (element == null) {
             for (int i = 0; i < size; i++) {
                 if (elements[i] == null) {
-                    return remove(i);
+                    return remove(i); // usuwamy od razu, nie przechowując removed osobno
                 }
             }
         } else {
             for (int i = 0; i < size; i++) {
                 if (element.equals(elements[i])) {
-                    return remove(i);
+                    return remove(i); // analogicznie
                 }
             }
         }
-        throw new NoSuchElementException("Element not found: " + element);
+        throw new java.util.NoSuchElementException("Element not found: " + element);
     }
+
 
     @Override
     public int size() {
