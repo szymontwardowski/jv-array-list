@@ -1,11 +1,11 @@
 package core.basesyntax;
 
+import java.util.NoSuchElementException;
+
 public class ArrayList<T> implements List<T> {
     private static final int DEFAULT_CAPACITY = 10;
-
     @SuppressWarnings("unchecked")
     private T[] elements = (T[]) new Object[DEFAULT_CAPACITY];
-
     private int size = 0;
 
     private void grow() {
@@ -33,7 +33,9 @@ public class ArrayList<T> implements List<T> {
         if (size == elements.length) {
             grow();
         }
-        System.arraycopy(elements, index, elements, index + 1, size - index);
+        for (int i = size; i > index; i--) {
+            elements[i] = elements[i - 1];
+        }
         elements[index] = value;
         size++;
     }
@@ -66,7 +68,7 @@ public class ArrayList<T> implements List<T> {
         if (index < 0 || index >= size) {
             throw new ArrayListIndexOutOfBoundsException("Invalid index: " + index);
         }
-        T removed = elements[index];
+        final T removed = elements[index];
         for (int i = index; i < size - 1; i++) {
             elements[i] = elements[i + 1];
         }
@@ -78,18 +80,8 @@ public class ArrayList<T> implements List<T> {
     @Override
     public T remove(T element) {
         for (int i = 0; i < size; i++) {
-            if (element == null
-                    && elements[i] == null) {
-                final T removed = elements[i];
-                for (int j = i; j < size - 1; j++) {
-                    elements[j] = elements[j + 1];
-                }
-                elements[size - 1] = null;
-                size--;
-                return removed;
-            }
-            if (element != null
-                    && element.equals(elements[i])) {
+            if (element == null && elements[i] == null
+                    || element != null && element.equals(elements[i])) {
                 final T removed = elements[i];
                 for (int j = i; j < size - 1; j++) {
                     elements[j] = elements[j + 1];
@@ -99,9 +91,8 @@ public class ArrayList<T> implements List<T> {
                 return removed;
             }
         }
-        throw new java.util.NoSuchElementException("Element not found: " + element);
+        throw new NoSuchElementException("Element not found: " + element);
     }
-
 
     @Override
     public int size() {
@@ -113,3 +104,5 @@ public class ArrayList<T> implements List<T> {
         return size == 0;
     }
 }
+
+
