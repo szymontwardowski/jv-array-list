@@ -78,9 +78,19 @@ public class ArrayList<T> implements List<T> {
     @Override
     public T remove(T element) {
         for (int i = 0; i < size; i++) {
-            if ((element == null && elements[i] == null) ||
-                    (element != null && element.equals(elements[i]))) {
-                T removed = elements[i];
+            if (element == null
+                    && elements[i] == null) {
+                final T removed = elements[i];
+                for (int j = i; j < size - 1; j++) {
+                    elements[j] = elements[j + 1];
+                }
+                elements[size - 1] = null;
+                size--;
+                return removed;
+            }
+            if (element != null
+                    && element.equals(elements[i])) {
+                final T removed = elements[i];
                 for (int j = i; j < size - 1; j++) {
                     elements[j] = elements[j + 1];
                 }
@@ -91,6 +101,7 @@ public class ArrayList<T> implements List<T> {
         }
         throw new java.util.NoSuchElementException("Element not found: " + element);
     }
+
 
     @Override
     public int size() {
