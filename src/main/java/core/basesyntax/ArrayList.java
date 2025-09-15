@@ -22,17 +22,14 @@ public class ArrayList<T> implements List<T> {
         }
         elements[size] = value;
         size++;
-
     }
 
     @Override
     public void add(T value, int index) {
-
     }
 
     @Override
     public void addAll(List<T> list) {
-
     }
 
     @Override
@@ -94,7 +91,6 @@ public class ArrayList<T> implements List<T> {
         }
         throw new java.util.NoSuchElementException("Element not found: " + element);
     }
-
 
     @Override
     public int size() {
