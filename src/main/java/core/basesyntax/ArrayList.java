@@ -1,16 +1,12 @@
 package core.basesyntax;
 
-import java.util.NoSuchElementException;
-
 public class ArrayList<T> implements List<T> {
     private static final int DEFAULT_CAPACITY = 10;
-    private T[] elements;
-    private int size = 0;
 
     @SuppressWarnings("unchecked")
-    public ArrayList() {
-        elements = (T[]) new Object[DEFAULT_CAPACITY];
-    }
+    private T[] elements = (T[]) new Object[DEFAULT_CAPACITY];
+
+    private int size = 0;
 
     private void grow() {
         int newCapacity = elements.length + elements.length / 2;
@@ -70,32 +66,31 @@ public class ArrayList<T> implements List<T> {
         if (index < 0 || index >= size) {
             throw new ArrayListIndexOutOfBoundsException("Invalid index: " + index);
         }
-        // tuż przed użyciem
         T removed = elements[index];
-        System.arraycopy(elements, index + 1, elements, index, size - index - 1);
-        elements[size - 1] = null; // wyzerowanie ostatniego elementu
+        for (int i = index; i < size - 1; i++) {
+            elements[i] = elements[i + 1];
+        }
+        elements[size - 1] = null;
         size--;
         return removed;
     }
 
     @Override
     public T remove(T element) {
-        if (element == null) {
-            for (int i = 0; i < size; i++) {
-                if (elements[i] == null) {
-                    return remove(i); // usuwamy od razu, nie przechowując removed osobno
+        for (int i = 0; i < size; i++) {
+            if ((element == null && elements[i] == null) ||
+                    (element != null && element.equals(elements[i]))) {
+                T removed = elements[i];
+                for (int j = i; j < size - 1; j++) {
+                    elements[j] = elements[j + 1];
                 }
-            }
-        } else {
-            for (int i = 0; i < size; i++) {
-                if (element.equals(elements[i])) {
-                    return remove(i); // analogicznie
-                }
+                elements[size - 1] = null;
+                size--;
+                return removed;
             }
         }
         throw new java.util.NoSuchElementException("Element not found: " + element);
     }
-
 
     @Override
     public int size() {
